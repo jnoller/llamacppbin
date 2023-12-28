@@ -32,8 +32,6 @@ jobs:
 
       - name: Compile with cmake.
         run: |
-          ls
-          cd llama.cpp
           mkdir build
           cd build
           cmake .. ${{ matrix.defines }}
@@ -41,5 +39,5 @@ jobs:
 
       - name: Pack Artifacts
         run: |
-          cd llama.cpp/build
+          cd build
           ls
