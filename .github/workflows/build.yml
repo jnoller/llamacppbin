@@ -40,4 +40,4 @@ jobs:
       - name: Pack Artifacts
         run: |
           cd build/bin
-          ls
+          ls Release
