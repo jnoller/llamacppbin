@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  windows:
+  windows-cpu-only:
     runs-on: windows-latest
 
     strategy:
@@ -23,7 +23,32 @@ jobs:
             defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DLLAMA_AVX2=OFF -DBUILD_SHARED_LIBS=ON'
           - build: 'avx512'
             defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DLLAMA_AVX512=ON -DBUILD_SHARED_LIBS=ON'
-          - build: 'nvidia'
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          repository: ggerganov/llama.cpp
+
+      - name: Compile with cmake.
+        run: |
+          mkdir build
+          cd build
+          cmake .. ${{ matrix.defines }}
+          cmake --build . --config Release
+
+      - name: Pack Artifacts
+        run: |
+          cd build/bin
+          ls Release
+
+  windows-cuda:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        include:
+          - build: 'cublas'
             defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DLLAMA_CUBLAS=ON -DBUILD_SHARED_LIBS=ON'
 
     steps:
