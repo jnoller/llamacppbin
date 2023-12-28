@@ -32,6 +32,7 @@ jobs:
 
       - name: Compile with cmake.
         run: |
+          ls -lah
           cd llama.cpp
           mkdir build
           cd build
