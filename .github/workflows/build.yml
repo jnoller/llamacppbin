@@ -39,5 +39,5 @@ jobs:
 
       - name: Pack Artifacts
         run: |
-          cd build
+          cd build/bin
           ls
