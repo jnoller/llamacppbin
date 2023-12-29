@@ -35,8 +35,10 @@ jobs:
 
       - name: Pack Artifacts
         run: |
-          cd build/bin
-          ls
+          cd build
+          mkdir macos-${{ matrix.build }}
+          cp -R bin/* macos-${{ matrix.build }}
+          ls macos-${{ matrix.build }}
 
   # windows-cpu-only:
   #   runs-on: windows-latest
