@@ -9,48 +9,35 @@ permissions:
   contents: write
 
 jobs:
-  windows-zig:
-    runs-on: windows-latest
+  macos:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        include:
+          - build: 'metal'
+            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON'
+          - build: 'nometal'
+            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           repository: ggerganov/llama.cpp
 
-      - name: Install Zig (latest)
-        uses: goto-bus-stop/setup-zig@v2
-
-      - name: Compile with Zig
+      - name: Compile with cmake.
         run: |
-          zig build -Doptimize=ReleaseFast -Dtarget=x86_64-windows-msvc -Dcpu=x86_64+avx2+fma
-          ls zig-out/
+          mkdir build
+          cd build
+          cmake .. ${{ matrix.defines }}
+          cmake --build . --config Release
 
-  # macos:
-  #   runs-on: macos-latest
+      - name: Pack Artifacts
+        run: |
+          cd build/bin
+          ls Release
 
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - build: 'metal'
-  #           defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON'
-
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #       with:
-  #         repository: ggerganov/llama.cpp
-
-  #     - name: Compile with cmake.
-  #       run: |
-  #         mkdir build
-  #         cd build
-  #         cmake .. ${{ matrix.defines }}
-  #         cmake --build . --config Release
-
-  #     - name: Pack Artifacts
-  #       run: |
-  #         cd build/bin
-  #         ls Release
   # windows-cpu-only:
   #   runs-on: windows-latest
 
