@@ -70,12 +70,14 @@ jobs:
       - name: Upload release assets
         run: |
           for file in artifacts/*; do
-            echo "Uploading $file"
-            curl \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: $(file -b --mime-type $file)" \
-              --data-binary @"$file" \
-              "${{ steps.create_release.outputs.upload_url }}/assets?name=$(basename $file)"
+            if [ -f "$file" ]; then
+              echo "Uploading $file"
+              curl \
+                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Content-Type: $(file -b --mime-type $file)" \
+                --data-binary @"$file" \
+                "${{ steps.create_release.outputs.upload_url }}/assets?name=$(basename $file)"
+            fi
           done
         shell: bash
   # windows-cpu-only:
