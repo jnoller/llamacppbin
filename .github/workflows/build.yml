@@ -61,6 +61,7 @@ jobs:
         with:
           files: artifacts/*
           name: Release ${{ github.run_number }}
+          tag_name: v${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # windows-cpu-only:
