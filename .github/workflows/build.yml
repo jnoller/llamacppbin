@@ -38,8 +38,31 @@ jobs:
           cd build
           mkdir macos-${{ matrix.build }}
           cp -R bin/* macos-${{ matrix.build }}
-          ls macos-${{ matrix.build }}
+          ln -s macos-${{ matrix.build }}/main macos-${{ matrix.build }}/llamacpp
+          tar -csvf macos-${{ matrix.build }}.tar.gz macos-${{ matrix.build }}
 
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+        
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./build/macos-${{ matrix.build }}.tar.gz
+          asset_name: macos-${{ matrix.build }}.tar.gz
+          asset_content_type: application/gzip
+  
   # windows-cpu-only:
   #   runs-on: windows-latest
 
