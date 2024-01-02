@@ -39,7 +39,7 @@ jobs:
           mkdir macos-${{ matrix.build }}
           cp -R bin/* macos-${{ matrix.build }}
           ln -s macos-${{ matrix.build }}/main macos-${{ matrix.build }}/llamacpp
-          tar -csvf macos-${{ matrix.build }}.tar.gz macos-${{ matrix.build }}
+          tar -czvf macos-${{ matrix.build }}.tar.gz macos-${{ matrix.build }}
 
       - name: Create Release
         id: create_release
