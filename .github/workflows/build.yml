@@ -17,8 +17,8 @@ jobs:
         include:
           - build: 'metal'
             defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON'
-          # - build: 'nometal'
-          #   defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
+          - build: 'nometal'
+            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
 
     steps:
       - name: Checkout code
@@ -56,8 +56,6 @@ jobs:
         with:
           path: artifacts
           merge-multiple: true
-      - name: Display structure of downloaded files
-        run: ls -R artifacts
 
       - name: Create release and upload assets
         uses: softprops/action-gh-release@v1
