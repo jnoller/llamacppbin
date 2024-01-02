@@ -17,8 +17,8 @@ jobs:
         include:
           - build: 'metal'
             defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON'
-          - build: 'nometal'
-            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
+          # - build: 'nometal'
+          #   defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
 
     steps:
       - name: Checkout code
@@ -76,7 +76,7 @@ jobs:
                 -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                 -H "Content-Type: $(file -b --mime-type $file)" \
                 --data-binary @"$file" \
-                "${{ steps.create_release.outputs.upload_url }}/assets?name=$(basename $file)"
+                "${{ steps.create_release.outputs.upload_url }}?name=$(basename $file)"
             fi
           done
         shell: bash
