@@ -64,7 +64,7 @@ jobs:
         with:
           name: macos-${{ matrix.build }}
           path: |
-            build/macos-${{ matrix.build }}.tar.gz
+            build/macos-universal-${{ matrix.build }}.tar.gz
   
   release:
     needs: macos
