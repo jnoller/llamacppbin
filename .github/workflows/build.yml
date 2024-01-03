@@ -57,7 +57,15 @@ jobs:
           mkdir macos-universal-${{ matrix.build }}
           cp -R bin/* macos-universal-${{ matrix.build }}
           ln -s macos-universal-${{ matrix.build }}/main macos-universal-${{ matrix.build }}/llamacpp
-          tar -czvf macos-universal-${{ matrix.build }}.tar.gz macos-universal-${{ matrix.build }}
+          zip -r macos-universal-${{ matrix.build }}.zip macos-universal-${{ matrix.build }}
+
+      - name: Notarize the zip file
+        uses: apple-actions/notarize@v1
+        with:
+          input_path: build/macos-universal-${{ matrix.build }}.zip
+          app_store_connect_api_issuer: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
+          app_store_connect_api_key: ${{ secrets.APP_STORE_CONNECT_KEY }}
+
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
