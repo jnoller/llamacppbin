@@ -66,14 +66,14 @@ jobs:
           product-path: build/macos-universal-${{ matrix.build }}.zip
           appstore-connect-username: ${{ secrets.APPLE_NOTARY_USER }}
           appstore-connect-password: ${{ secrets.NOTARY_PASS }}
-          appstore-connect-team-id: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
+          appstore-connect-team-id: ${{ secrets.APPLE_TEAM_ID }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: macos-${{ matrix.build }}
           path: |
-            build/macos-universal-${{ matrix.build }}.tar.gz
+            build/macos-universal-${{ matrix.build }}.zip
   
   release:
     needs: macos
