@@ -63,6 +63,7 @@ jobs:
         uses: GuillaumeFalourd/notary-tools@v1
         with:
           #verbose: true
+          staple: false
           product_path: build/macos-universal-${{ matrix.build }}.zip
           apple_id: ${{ secrets.APPLE_NOTARY_USER }}
           password: ${{ secrets.NOTARY_PASS }}
