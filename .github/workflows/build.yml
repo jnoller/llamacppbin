@@ -60,14 +60,12 @@ jobs:
           zip -r macos-universal-${{ matrix.build }}.zip macos-universal-${{ matrix.build }}
 
       - name: Notarize the zip file
-        uses: indygreg/apple-code-sign-action@v1
+        uses: lando/notarize-action@v2
         with:
-          sign: false
-          notarize: true
-          input_path: build/macos-universal-${{ matrix.build }}.zip
-          app_store_connect_api_issuer: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
-          app_store_connect_api_key: ${{ secrets.APP_STORE_CONNECT_KEY }}
-
+          product-path: build/macos-universal-${{ matrix.build }}.zip
+          appstore-connect-username: ${{ secrets.APPLE_NOTARY_USER }}
+          appstore-connect-password: ${{ secrets.NOTARY_PASS }}
+          appstore-connect-team-id: ${{ secrets.APPLE_TEAM_ID }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
