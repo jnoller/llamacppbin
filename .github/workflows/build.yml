@@ -32,13 +32,23 @@ jobs:
           cd build
           cmake .. ${{ matrix.defines }}
           cmake --build . --config Release
-      
-      - name: Sign OSX Binaries
-        uses: lando/code-sign-action@v2
+
+      - name: Import apple code signing certificate
+        uses: apple-actions/import-codesign-certs@v1
         with:
-          file: build/bin/*
-          certificate-data: ${{ secrets.OSX_P12_FILE }}
-          certificate-password: ${{ secrets.OSX_CERT_PASSWORD }}
+          p12-file-base64: ${{ secrets.OSX_P12_FILE }}
+          p12-password: ${{ secrets.OSX_CERT_PASSWORD }}
+
+      - name: Sign OSX Binaries
+        run: |
+          security unlock-keychain -p ${{ secrets.OSX_CERT_PASSWORD }} build.keychain
+          for binary in build/bin/*; do
+            if [ -f "$binary" ]; then
+              echo "Signing $binary"
+              codesign --keychain build.keychain --sign "Developer ID Application: Jesse Noller" --timestamp --options runtime "$binary"
+            fi
+          done
+        shell: bash
 
       - name: Pack Artifacts
         run: |
