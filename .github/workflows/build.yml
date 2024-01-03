@@ -62,6 +62,8 @@ jobs:
       - name: Notarize the zip file
         uses: indygreg/apple-code-sign-action@v1
         with:
+          sign: false
+          notarize: true
           input_path: build/macos-universal-${{ matrix.build }}.zip
           app_store_connect_api_issuer: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
           app_store_connect_api_key: ${{ secrets.APP_STORE_CONNECT_KEY }}
