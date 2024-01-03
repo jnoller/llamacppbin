@@ -17,8 +17,8 @@ jobs:
         include:
           - build: 'metal'
             defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON'
-          - build: 'nometal'
-            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
+          # - build: 'nometal'
+          #   defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
 
     steps:
       - name: Checkout code
@@ -34,11 +34,11 @@ jobs:
           cmake --build . --config Release
       
       - name: Sign OSX Binaries
-        uses: indygreg/apple-code-sign-action@v1
+        uses: lando/code-sign-action@v2
         with:
-          input_path: build/bin/*
-          p12_file: ${{ secrets.OSX_P12_FILE }}
-          p12_password: ${{ secrets.OSX_CERT_PASSWORD }}
+          file: build/bin/
+          certificate-data: ${{ secrets.OSX_P12_FILE }}
+          certificate-password: ${{ secrets.OSX_CERT_PASSWORD }}
 
       - name: Pack Artifacts
         run: |
