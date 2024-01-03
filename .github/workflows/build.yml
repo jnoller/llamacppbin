@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - build: 'metal'
-            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON'
+            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=OFF'
           # - build: 'nometal'
           #   defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
 
@@ -56,7 +56,6 @@ jobs:
           cd build
           mkdir macos-universal-${{ matrix.build }}
           cp -R bin/* macos-universal-${{ matrix.build }}
-          ln -s macos-universal-${{ matrix.build }}/main macos-universal-${{ matrix.build }}/llamacpp
           zip -r macos-universal-${{ matrix.build }}.zip macos-universal-${{ matrix.build }}
 
       - name: Notarize the zip file
