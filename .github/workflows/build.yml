@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - build: 'metal'
-            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=OFF'
+            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=OFF'
           # - build: 'nometal'
           #   defines: '-DLLAMA_NATIVE=OFF -DLLAMA_FAST=ON -DLLAMA_BUILD_SERVER=ON -DBUILD_SHARED_LIBS=ON -DLLAMA_NO_METAL=1'
 
