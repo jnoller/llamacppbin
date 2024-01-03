@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - build: 'metal'
-            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_METAL=ON'
+            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_METAL=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"'
           # - build: 'nometal'
           #   defines: '-DLLAMA_METAL=OFF'
 
