@@ -57,7 +57,7 @@ jobs:
           mkdir macos-universal-${{ matrix.build }}
           cp -R bin/* macos-universal-${{ matrix.build }}
           ln -s macos-universal-${{ matrix.build }}/main macos-universal-${{ matrix.build }}/llamacpp
-          tar -czvf macos-${{ matrix.build }}.tar.gz macos-${{ matrix.build }}
+          tar -czvf macos-universal-${{ matrix.build }}.tar.gz macos-universal-${{ matrix.build }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
