@@ -44,7 +44,7 @@ jobs:
         run: |
           security unlock-keychain -p ${{ secrets.OSX_CERT_PASSWORD }} build.keychain
           for binary in build/bin/*; do
-            if [ -f "$binary" ]; then
+            if [ -f "$file" ]; then
               echo "Signing $binary"
               codesign --keychain build.keychain --sign "Developer ID Application: Jesse Noller" --timestamp --options runtime "$binary"
             fi
