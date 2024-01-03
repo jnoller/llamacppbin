@@ -15,10 +15,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - build: 'metal'
-            defines: '-DLLAMA_NATIVE=OFF -DLLAMA_METAL=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"'
-          # - build: 'nometal'
-          #   defines: '-DLLAMA_METAL=OFF'
+          - build: 'x86_64-metal'
+            arch: 'x86_64'
+            defines: '-DLLAMA_METAL=ON'
+          - build: 'x86_64-nometal'
+            arch: 'x86_64'
+            defines: '-DLLAMA_METAL=OFF'
+          - build: 'arm64-metal'
+            arch: 'arm64-metal'
+            defines: '-DLLAMA_METAL=ON'
 
     steps:
       - name: Checkout code
@@ -54,16 +59,16 @@ jobs:
       - name: Pack Artifacts
         run: |
           cd build
-          mkdir macos-universal-${{ matrix.build }}
-          cp -R bin/* macos-universal-${{ matrix.build }}
-          zip -r macos-universal-${{ matrix.build }}.zip macos-universal-${{ matrix.build }}
+          mkdir macos-${{ matrix.build }}
+          cp -R bin/* macos-${{ matrix.build }}
+          zip -r macos-${{ matrix.build }}.zip macos-${{ matrix.build }}
 
       - name: Notarize the zip file
         uses: GuillaumeFalourd/notary-tools@v1
         with:
           #verbose: true
           staple: false
-          product_path: build/macos-universal-${{ matrix.build }}.zip
+          product_path: build/macos-${{ matrix.build }}.zip
           apple_id: ${{ secrets.APPLE_NOTARY_USER }}
           password: ${{ secrets.NOTARY_PASS }}
           team_id: ${{ secrets.APPLE_TEAM_ID }}
@@ -73,8 +78,8 @@ jobs:
         with:
           name: macos-${{ matrix.build }}
           path: |
-            build/macos-universal-${{ matrix.build }}.zip
-  
+            build/macos-${{ matrix.build }}.zip
+
   release:
     needs: macos
     runs-on: macos-latest
