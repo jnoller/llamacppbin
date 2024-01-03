@@ -62,8 +62,9 @@ jobs:
       - name: Notarize the zip file
         uses: lando/notarize-action@v2
         with:
+          verbose: true
           product-path: build/macos-universal-${{ matrix.build }}.zip
-          appstore-connect-username: ${{ secrets.NOTARY_EMAIL }}
+          appstore-connect-username: ${{ secrets.APPLE_NOTARY_USER }}
           appstore-connect-password: ${{ secrets.NOTARY_PASS }}
           appstore-connect-team-id: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
 
