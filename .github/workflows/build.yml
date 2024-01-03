@@ -60,7 +60,7 @@ jobs:
           zip -r macos-universal-${{ matrix.build }}.zip macos-universal-${{ matrix.build }}
 
       - name: Notarize the zip file
-        uses: apple-actions/notarize@v1
+        uses: indygreg/apple-code-sign-action@v1
         with:
           input_path: build/macos-universal-${{ matrix.build }}.zip
           app_store_connect_api_issuer: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
