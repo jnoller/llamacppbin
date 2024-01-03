@@ -63,9 +63,9 @@ jobs:
         uses: lando/notarize-action@v2
         with:
           product-path: build/macos-universal-${{ matrix.build }}.zip
-          appstore-connect-username: ${{ secrets.APPLE_NOTARY_USER }}
+          appstore-connect-username: ${{ secrets.NOTARY_EMAIL }}
           appstore-connect-password: ${{ secrets.NOTARY_PASS }}
-          appstore-connect-team-id: ${{ secrets.APPLE_TEAM_ID }}
+          appstore-connect-team-id: ${{ secrets.OSX_NOTARY_ISSUER_ID }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
