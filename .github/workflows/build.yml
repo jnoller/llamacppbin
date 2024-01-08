@@ -59,7 +59,9 @@ jobs:
         run: |
           cd build
           mkdir macos-${{ matrix.build }}
+          mkdir -p macos-${{ matrix.build }}/examples/server/
           mv bin macos-${{ matrix.build }}
+          cp -R ../examples/server/public macos-${{ matrix.build }}/examples/server/
           zip -r macos-${{ matrix.build }}.zip macos-${{ matrix.build }}
 
       - name: Notarize the zip file
