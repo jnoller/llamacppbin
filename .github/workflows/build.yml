@@ -18,7 +18,6 @@ jobs:
           - build: 'x86_64-metal'
             defines: '-DLLAMA_METAL=ON -DCMAKE_OSX_ARCHITECTURES="x86_64" -DLLAMA_NATIVE=OFF'
           - build: 'x86_64-nometal'
-            arch: 'x86_64'
             defines: '-DLLAMA_METAL=OFF -DCMAKE_OSX_ARCHITECTURES="x86_64" -DLLAMA_NATIVE=OFF'
           - build: 'arm64-metal'
             defines: '-DLLAMA_METAL=ON -DCMAKE_OSX_ARCHITECTURES="arm64" -DLLAMA_NATIVE=OFF'
@@ -60,7 +59,7 @@ jobs:
         run: |
           cd build
           mkdir macos-${{ matrix.build }}
-          cp -R bin/* macos-${{ matrix.build }}
+          mv bin macos-${{ matrix.build }}
           zip -r macos-${{ matrix.build }}.zip macos-${{ matrix.build }}
 
       - name: Notarize the zip file
